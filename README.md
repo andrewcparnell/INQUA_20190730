@@ -1,3 +1,3 @@
-# Talk at PALSEA conference 20190722
+# Talk at INQUA conference 22/7/2019
 
-Link to talk [here](https://andrewcparnell.github.io/palsea_20190722/Palsea_20190722.html)
+Link to talk [here](https://andrewcparnell.github.io/INQUA_20190730/)

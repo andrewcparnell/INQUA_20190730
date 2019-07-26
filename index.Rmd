@@ -1,8 +1,9 @@
 ---
 title: "An introduction to Bayesian statistics for palaeoclimatologists"
 author: "Andrew C Parnell, Niamh Cahill, Michael Salter-Townshend"
-date: ""
-output: 
+date: ''
+output:
+  slidy_presentation: default
   powerpoint_presentation:
     reference_doc: Hamilton_template.pptx
 ---
@@ -30,7 +31,7 @@ $$P(A|B) = \frac{P(B|A) P(A)}{P(B)}$$
 
 ### What is Bayes?
 
-```{r}
+```{r, fig.width = 10, fig.height = 5}
 x = seq(-3,4, length = 100)
 df = tibble(x) %>% 
   mutate(`Previous\nknowledge` = dnorm(x,0,1)/sum(dnorm(x,0,1)),
