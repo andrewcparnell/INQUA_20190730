@@ -3,9 +3,9 @@ title: "An introduction to Bayesian statistics for palaeoclimatologists"
 author: "Andrew C Parnell, Niamh Cahill, Michael Salter-Townshend"
 date: ''
 output:
-  slidy_presentation: default
   powerpoint_presentation:
     reference_doc: Hamilton_template.pptx
+  slidy_presentation: default
 ---
 
 ```{r setup, include=FALSE}
@@ -64,7 +64,7 @@ ggplot(df, aes(x = x, y = value, group = type,
 
   1. Calculate the **posterior** probability distribution to obtain our new knowledge using Bayes' theorem (and a helpful R package or Bayesian statistician)
 
-### How does this work for palaeoclimate reconstruction
+### How does this work for palaeoclimate reconstruction?
 
 1. We know the ancient proxies and the modern proxy/climate relationship. These are our **data**. The ancient climate are our unknown **parameters**
 
