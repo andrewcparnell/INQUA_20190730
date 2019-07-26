@@ -1,66 +1,129 @@
 ---
 title: "An introduction to Bayesian statistics for palaeoclimatologists"
-author: 
-  - "Andrew C Parnell"
-output:
-  xaringan::moon_reader:
-    css: [default, maynooth, maynooth-fonts]
-    lib_dir: libs
-    seal: false
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
-editor_options: 
-  chunk_output_type: console
+author: "Andrew C Parnell, Niamh Cahill, Michael Salter-Townshend"
+date: ""
+output: 
+  powerpoint_presentation:
+    reference_doc: Hamilton_template.pptx
 ---
+
 ```{r setup, include=FALSE}
-#devtools::install_github('brunaw/xaringan')
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(fig.align = 'center')
-auf::packages('tidyverse')
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
 ```
 
-class: title-slide, center, middle
+### Who was Bayes?
 
-<br>
-
-<br>
-
-## An introduction to Bayesian statistics for palaeoclimatologists
+:::::::::::::: {.columns}
+::: {.column}
+*An essay towards solving a problem on the doctrine of chances* (1763)
 
 <br> 
 
-### Andrew C Parnell
+$$P(A|B) = \frac{P(B|A) P(A)}{P(B)}$$
 
-<br>
+:::
+::: {.column}
+![](https://upload.wikimedia.org/wikipedia/commons/d/d4/Thomas_Bayes.gif)
+:::
+::::::::::::::
 
-### 30th July 2019
+### What is Bayes?
 
-<br>
-
-[andrewcparnell.github.io/INQUA_20190730/](https://andrewcparnell.github.io/INQUA_20190730/)
----
-
-class: big
-
-# What's a chronology model?
-
-Usual set up is:
-- Have a core
-- Some radiocarbon dates with depths
-- Know the calibration curve that applies to these dates
-- Might know the age of the top of the core (or a constraint on it)
-- Might have some other types of dates as well
-
-A chronology model will then give you estimated ages for any depth you choose in the core.
-
----
-
-# A brief history of chronology models
-
-```{r, echo = FALSE, out.height="500", fig.align='default'}
-#knitr::include_graphics("p1.jpg")
+```{r}
+x = seq(-3,4, length = 100)
+df = tibble(x) %>% 
+  mutate(`Previous\nknowledge` = dnorm(x,0,1)/sum(dnorm(x,0,1)),
+         `Data` = dnorm(x, 2, 0.6)/sum(dnorm(x, 2, 0.6)),
+         `New\nknowledge` = `Previous\nknowledge`*`Data`/sum(`Previous\nknowledge`*`Data`)) %>% 
+  gather(type,
+         value, -x)
+df_summ = df %>% 
+  group_by(type) %>% 
+  summarise(dens_max = max(value),
+            x_at_max = x[which.max(value)])
+ggplot(df, aes(x = x, y = value, group = type,
+             fill = type)) +
+  geom_polygon(alpha = 0.5) +
+  geom_text(data = df_summ,
+            aes(x = x_at_max,
+                y = dens_max,
+                label = type,
+                colour = type),
+            nudge_y = 0.005) +
+  theme_void() + 
+  theme(legend.position = 'None')
 ```
 
----
+### How does it work?
+
+1. Divide up your world into things you know (**data**) and things you don't know (**parameters**)
+
+1. Create a **generative model** that says what the data would look like if you knew what the parameters were
+
+1. Calculate the **posterior** probability distribution to obtain our new knowledge using Bayes' theorem (and a helpful R package or Bayesian statistician)
+
+### How does this work for palaeoclimate reconstruction
+
+1. We know the ancient proxies and the modern proxy/climate relationship. These are our **data**. The ancient climate are our unknown **parameters**
+
+1. We can build a generative model for how ancient pollen might form from ancient climate
+
+1. We turn the Bayesian handle to produce a posterior probability distribution of ancient climate given ancient pollen
+
+### Why is this better?
+
+- **Because you get a probability distribution for your unknowns given what you know**
+
+- **Because you can incorporate external information that you know about your system**
+
+- **Because it avoids terrible $p$-values**
+
+<br> 
+
+*A p-value, or statistical significance, does not measure the size of an effect or the importance of a result* - American Statistical Association 2017
+
+
+### Ex 1: Kemp et al. 2013 QSR
+
+![](https://github.com/andrewcparnell/palsea_20190722/raw/master/age_depth_NY.jpg)
+
+### Ex 2: Cahill et al. 2016 COTP
+
+![](https://github.com/andrewcparnell/palsea_20190722/raw/master/bhm_plot.jpg)
+
+
+
+### A note on computation
+
+- Most methods to compute the posterior distribution (the *new knowledge*) work via trial and error on the unknown parameters
+
+- This means that rather than a single best value you get a *spreadsheet of values* that match the data
+
+- You can do anything you like with this posterior spreadsheet!
+
+```{r, echo = FALSE}
+post = tibble(
+  `c(t_1)` = rnorm(5),
+  `c(t_2)` = rnorm(5),
+  `c(t_3)` = rnorm(5)
+) %>% round(3)
+post %>% as.data.frame
+```
+
+
+
+### The rest of this session
+
+1. *Nils Weitzel*, Combining a proxy synthesis and climate simulations for spatial reconstructions of European climate using Bayesian filtering
+
+1. *Lauren Gregoire*, Searching for the deglaciation: sampling spatio-temporal climate uncertainty for simulating ice sheet evolution
+
+1. *Lambert Caron*, Quantifying the Information Content of Relative Sea-level and Geodetic Data for Constraint on North American GIA Models
+
+1. *Erica Ashe*, Estimating global sea level over the late Holocene using a spatio-temporal empirical Bayesian hierarchical framework
+
+1. *Marco Antonio Aquino Lopez*, Bayesian improvements to 210Pb dating
+
+
+
