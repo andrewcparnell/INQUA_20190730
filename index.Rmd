@@ -57,11 +57,11 @@ ggplot(df, aes(x = x, y = value, group = type,
 
 ### How does it work?
 
-1. Divide up your world into things you know (**data**) and things you don't know (**parameters**)
+  1. Divide up your world into things you know (**data**) and things you don't know (**parameters**)
 
-1. Create a **generative model** that says what the data would look like if you knew what the parameters were
+  1. Create a **generative model** that says what the data would look like if you knew what the parameters were
 
-1. Calculate the **posterior** probability distribution to obtain our new knowledge using Bayes' theorem (and a helpful R package or Bayesian statistician)
+  1. Calculate the **posterior** probability distribution to obtain our new knowledge using Bayes' theorem (and a helpful R package or Bayesian statistician)
 
 ### How does this work for palaeoclimate reconstruction
 
@@ -100,8 +100,6 @@ ggplot(df, aes(x = x, y = value, group = type,
 
 - This means that rather than a single best value you get a *spreadsheet of values* that match the data
 
-- You can do anything you like with this posterior spreadsheet!
-
 ```{r, echo = FALSE}
 post = tibble(
   `c(t_1)` = rnorm(5),
@@ -111,18 +109,12 @@ post = tibble(
 post %>% as.data.frame
 ```
 
-
-
 ### The rest of this session
 
 1. *Nils Weitzel*, Combining a proxy synthesis and climate simulations for spatial reconstructions of European climate using Bayesian filtering
-
 1. *Lauren Gregoire*, Searching for the deglaciation: sampling spatio-temporal climate uncertainty for simulating ice sheet evolution
-
 1. *Lambert Caron*, Quantifying the Information Content of Relative Sea-level and Geodetic Data for Constraint on North American GIA Models
-
 1. *Erica Ashe*, Estimating global sea level over the late Holocene using a spatio-temporal empirical Bayesian hierarchical framework
-
 1. *Marco Antonio Aquino Lopez*, Bayesian improvements to 210Pb dating
 
 
